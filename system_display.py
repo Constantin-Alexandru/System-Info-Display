@@ -49,26 +49,30 @@ class SysInfo:
         '''
         return f'CPU: {self.cpu}% \n\rRAM: {self.ram}%'
     
+    
 def readSysInfo(info):
     '''
     The function attempts to read the system information from the connected device
-    @param queue: The queue holding the output
+    @param info: The info object holding the data we want to display
     '''
-    print("req") # Sends the message that the PC connections is expecting to send information about the PC
+    # Inform the host system that we are requesting the data
+    print("req")
+    # Read the data and store it into a SysInfo object
+    input_exists, _, _ = select.select( [sys.stdin], [], [], 5)
+    if input_exists:
+        input = sys.stdin.readline().strip().split()
+        if input:
+            info.ram = input[0]
+            info.cpu = input[1]
+    return info
     
-    '''
-    The function needs to read from the connection the PC info (Hint: Use sys.stdin) and parse the incoming mesage to a SysInfo obj.
-    In addition, the system needs to be able to timeout if no input has been received in a set amount of time.
-    This is done in order to ensure that, in case of a message send to the Serial Port not reaching it's target, the system doesn't get blocked waiting for an input that never comes.
-    Afterwards, return the SysInfo object (that's also passed as a parameter) so the message can be sent
-    '''
     
-#Creating the initial object
 info = SysInfo()
-
 while True:
+    info = readSysInfo(info)
     clear()
-    display.set_pen(WHITE) # Sets the colour of the text
-    display.text(str(info), 10, 10, 240, 3) # Displays the text
-    display.update() # Updates the display
-    info = readSysInfo(info) # Reads the data for the system
+    display.set_pen(WHITE)
+    display.text(str(info), 10, 10, 240, 3)
+    display.update()
+    sleep(1)
+ 

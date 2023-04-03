@@ -17,7 +17,7 @@ import time
 debug = False
 
 # Connecting to the Pico through serial
-s = serial.Serial("<insert serial port here>", 115200) # Note: Depending on OS, there are different ways to find the serial port of the pico, check your OS' documentation
+s = serial.Serial('COM3', 115200) # Note: If COM3 doesn't work for the serial Code, check device manager for the code
 
 # Printing a debug message
 if debug:
