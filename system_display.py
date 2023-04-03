@@ -62,17 +62,36 @@ def readSysInfo(info):
     if input_exists:
         input = sys.stdin.readline().strip().split()
         if input:
-            info.ram = input[0]
-            info.cpu = input[1]
+            info.ram = float(input[0])
+            info.cpu = float(input[1])
     return info
     
-    
+def setDisplayColorBasedOnValue(val):
+    '''
+    The function receives a number and sets the colour based on the value
+    @param val: the value that determines the colour 
+    '''
+    if val >= 80:
+        display.set_pen(RED)
+    elif val >= 50:
+        display.set_pen(YELLOW)
+    else:
+        display.set_pen(WHITE)
+
 info = SysInfo()
 while True:
     info = readSysInfo(info)
     clear()
-    display.set_pen(WHITE)
-    display.text(str(info), 10, 10, 240, 3)
+
+    # Displaying the value for the CPU
+    setDisplayColorBasedOnValue(info.cpu)
+    display.text(f"CPU: {info.cpu}%", 10, 10, 240, 3)
     display.update()
+ 
+    # Displaying the value for the RAM
+    setDisplayColorBasedOnValue(info.ram)
+    display.text(f"RAM: {info.ram}%", 10, 35, 240, 3)
+    display.update()
+ 
     sleep(1)
  
