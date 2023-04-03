@@ -52,7 +52,7 @@ class SysInfo:
 def readSysInfo(info):
     '''
     The function attempts to read the system information from the connected device
-    @param queue: The queue holding the output
+    @param info: The info object holding the data we want to display
     '''
     print("req") # Sends the message that the PC connections is expecting to send information about the PC
     
